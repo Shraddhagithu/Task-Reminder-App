@@ -1,27 +1,44 @@
 package com.example.app.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Column;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
+@Entity
 public class Task {
-    private Integer id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="task_id")
+    private Long id;
     private String title;
     private String description;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate dueDate;  // Changed from LocalDateTime to LocalDate
+    private LocalDate dueDate;
 
     private String status;
     private String priority;
+
+    // CREATED DATE FIELD
     private LocalDateTime createdAt;
 
     // Default constructor
     public Task() {}
 
     // Parameterized constructor
-    public Task(Integer id, String title, String description, LocalDate dueDate,
-                String status, String priority, LocalDateTime createdAt) {
+    public Task(Long id, String title, String description,
+                LocalDate dueDate, String status, String priority,
+                LocalDateTime createdAt) {
+
         this.id = id;
         this.title = title;
         this.description = description;
@@ -31,9 +48,10 @@ public class Task {
         this.createdAt = createdAt;
     }
 
-    // Getters & Setters
-    public Integer getId() { return id; }
-    public void setId(Integer id) { this.id = id; }
+    // ---------- GETTERS & SETTERS ----------
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }

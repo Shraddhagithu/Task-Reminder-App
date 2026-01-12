@@ -1,36 +1,38 @@
 package com.example.app.service;
 
 import com.example.app.entity.Task;
+import com.example.app.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TaskService {
 
-    private final List<Task> tasks = new ArrayList<>();
-    private static int counter = 100;
+    private final TaskRepository taskRepository;
 
-    public TaskService() {
-        tasks.add(new Task(1, "Learn Spring Boot", "Basics of project",
-                LocalDate.of(2025, 12, 5), "pending", "High", LocalDateTime.now()));
-
-        tasks.add(new Task(2, "Practice Java", "Collections & OOP",
-                LocalDate.of(2025, 12, 6), "pending", "Medium", LocalDateTime.now()));
+    public TaskService(TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
     }
 
     public List<Task> getAllTasks() {
-        return tasks;
+        return taskRepository.findAll();
     }
 
     public void addTask(Task task) {
-        tasks.add(task);
+        taskRepository.save(task);
     }
 
-    public static int nextId() {
-        return counter++;
+    public Optional<Task> findById(Long id) {  // ✅ Only Long
+        return taskRepository.findById(id);
+    }
+
+    public void updateTask(Task task) {
+        taskRepository.save(task);
+    }
+
+    public void deleteTask(Long id) {
+        taskRepository.deleteById(id);
     }
 }
